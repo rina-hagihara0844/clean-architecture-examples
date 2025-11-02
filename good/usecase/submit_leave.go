@@ -94,6 +94,8 @@ func (uc SubmitLeave) Submit(in SubmitInput) (SubmitOutput, error) {
 	if err := uc.LeavesRepo.Create(req); err != nil {
 		return SubmitOutput{}, err
 	}
-	_ = uc.Mailer.NotifyManagerNewRequest(req.ID) // 失敗は致命にしない方針
+	if err := uc.Mailer.NotifyManagerNewRequest(req.ID); err != nil {
+		return SubmitOutput{}, err
+	}
 	return SubmitOutput{ID: req.ID, Status: req.Status}, nil
 }
