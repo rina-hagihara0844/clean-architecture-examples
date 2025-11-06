@@ -44,8 +44,7 @@ type LeaveRequest struct {
 // ビジネスルール
 // 半年以上勤務している & 年度内5回未満なら申請可能
 func CanSubmit(e Employee, submittedCountThisFiscal int, now time.Time) bool {
-	sixMonths := now.AddDate(0, -6, 0)
-	if e.HireDate.After(sixMonths) {
+	if e.HireDate.AddDate(0, 6, 0).After(now) {
 		return false
 	}
 	return submittedCountThisFiscal < 5

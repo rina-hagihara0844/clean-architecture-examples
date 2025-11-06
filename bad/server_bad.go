@@ -50,9 +50,9 @@ func main() {
 			http.Error(w, "employee not found", 404)
 			return
 		}
-		// 入社6か月以上かチェック
+		// 入社6か月未満なら不適格
 		// → Domain層
-		if hireDate.AddDate(0, 6, 0).Before(time.Now()) {
+		if hireDate.AddDate(0, 6, 0).After(time.Now()) {
 			http.Error(w, "not eligible (<6 months)", 400)
 			return
 		}
